@@ -5,7 +5,6 @@
 #define COL 10 //맵 세로 칸 수
 
 
-
 //각 노드별 정보 생성
 struct node
 {
@@ -14,8 +13,10 @@ struct node
 };
 
 //해당 노드가 유효한지 판단
-bool isvalid(int x, int y)
+bool isValid(int x, int y)
 {
 	return (x >= 0) && (x < ROW) && (y >= 0) && (y < COL);
 }
 
+//해당 노드가 막히지 않았는지 판단. 1 = 벽 / 0 = 길
+bool isUnblocked(int )
