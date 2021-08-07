@@ -1,50 +1,48 @@
 #include<iostream>
-#include<cmath> //sqrt ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½?
+#include<cmath> //sqrt ÇÔ¼ö »ç¿ë
+#include<utility> //pair ÇÔ¼ö »ç¿ë
 #include<algorithm>
-#include<utility>
 #include<stack>
 
-#define ROW 10 //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä­ ï¿½ï¿½
-#define COL 10 //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä­ ï¿½ï¿½
-
-using Pair pair<int, int>;
-using Pair_2 pair<double, pair<int, int>>;
+#define ROW 10 
+#define COL 10 
 
 using Pair = std::pair<int, int>;
 using Pair_2 = std::pair<double, std::pair<int, int>>;
 
-//ï¿½ï¿½ ï¿½ï¿½ï¿½? ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+//³ëµå¿¡ ´ëÇÑ Á¤º¸¸¦ ´ã´Â´Ù
 struct node
 {
-	int node_x, node_y; //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½? xï¿½ï¿½Ç¥ yï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
-	double f, g, h; //ï¿½Þ¸ï¿½ï¿½ï¿½Æ½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	int node_x, node_y; 
+	double f, g, h; 
 };
 
-//ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½? ï¿½ï¿½È¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½
+//ÇØ´ç ³ëµå°¡ À¯È¿ÇÑÁö ÆÇ´ÜÇÑ´Ù
+//ÃÊ±â¿¡ Á¤ÇØÁø ¹üÀ§¸¦ °¡Áö°í ÆÇ´Ü
 bool isValid(int x, int y)
 {
 	return (x >= 0) && (x < ROW) && (y >= 0) && (y < COL);
 }
 
-//ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò´ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½. 1 = ï¿½ï¿½ / 0 = ï¿½ï¿½
-bool isUnblocked(int grid[][COL], int x, int y) 
+
+//ÇØ´ç ³ëµå°¡ ¸·È÷Áö ¾Ê¾Ò´ÂÁö ÆÇ´Ü. 1 = º® / 0 = ±æ
+bool isUnblocked(int grid[][COL], int x, int y)
 {
 	if (grid[x][y] == 0)
-		return true;
+		return (true);
 	else
-		return false;
+		return (false);
 }
 
-//ï¿½ï¿½ ï¿½ï¿½ï¿½?  
-
+//H°ª °è»ê
 double Hscore(int x, int y, Pair dest)
 {
 	double dx = abs(x - dest.first);
 	double dy = abs(y - dest.second);
-	return 1 * (dx + dy) + (2 - 2 * 1) * std::min<dx, dy>; //diagonal distance ï¿½Ë°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½?
+	return 1 * (dx + dy) + (2 - 2 * 1) * std::min<dx, dy>; //diagonal distance ¾Ë°í¸®Áò »ç¿ë
 }
 
-//ï¿½Ø´ï¿½ ï¿½ï¿½å°¡ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+//ÇØ´ç ³ëµå°¡ ¸ñÀûÁöÀÎÁö ÆÇ´Ü
 bool isDest(int x, int y, Pair dest)
 {
 	if(x == dest.first && y == dest.second)
@@ -53,14 +51,31 @@ bool isDest(int x, int y, Pair dest)
 		return (false);
 }
 
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+//°æ·Î Ãâ·Â
 void tracepath(node nodeDetails[][COL], Pair dest)
 {
-	printf("\nï¿½ï¿½Î´ï¿½ : ");
+	printf("\n°æ·Î´Â ´ÙÀ½°ú °°½À´Ï´Ù: ");
 	int x = dest.first;
 	int y = dest.second;
 
 	std::stack<Pair> Path;
 
-	while
+	while (!(nodeDetails[x][y].node_x == x && nodeDetails[x][y].node_y == y)) 
+	{
+		Path.push(std::make_pair(x, y));
+		int temp_x = nodeDetails[x][y].node_x;
+		int temp_y = nodeDetails[x][y].node_y;
+		x = temp_x;
+		y = temp_y;
+	}
+
+	Path.push(std::make_pair(x, y));
+	while (!Path.empty())
+		{
+			std::pair<int, int> p = Path.top();
+			Path.pop();
+			printf("-> (%d, %d)", p.first, p.second);
+		}
+	return;
 }
+
