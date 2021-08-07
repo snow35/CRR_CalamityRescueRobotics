@@ -1,29 +1,30 @@
 #include<iostream>
-#include<cmath> //sqrt ÇÔ¼ö »ç¿ë
+#include<cmath> //sqrt ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½?
 #include<algorithm>
+#include<utility>
+#include<stack>
 
-#define ROW 10 //¸Ê °¡·Î Ä­ ¼ö
-#define COL 10 //¸Ê ¼¼·Î Ä­ ¼ö
+#define ROW 10 //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä­ ï¿½ï¿½
+#define COL 10 //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä­ ï¿½ï¿½
 
 
-typedef pair<int, int> Pair;
+using Pair = std::pair<int, int>;
+using Pair_2 = std::pair<double, std::pair<int, int>>;
 
-typedef pair<double, pair<int, int>> Pair_2;
-
-//°¢ ³ëµåº° Á¤º¸ »ý¼º
+//ï¿½ï¿½ ï¿½ï¿½ï¿½? ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 struct node
 {
-	int node_x, node_y; //°¢°¢ ³ëµåÀÇ xÁÂÇ¥ yÁÂÇ¥ ÀúÀå
-	double f, g, h; //ÈÞ¸®½ºÆ½ °ª ÀúÀå
+	int node_x, node_y; //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½? xï¿½ï¿½Ç¥ yï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
+	double f, g, h; //ï¿½Þ¸ï¿½ï¿½ï¿½Æ½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 };
 
-//ÇØ´ç ³ëµå°¡ À¯È¿ÇÑÁö ÆÇ´Ü
+//ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½? ï¿½ï¿½È¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½
 bool isValid(int x, int y)
 {
 	return (x >= 0) && (x < ROW) && (y >= 0) && (y < COL);
 }
 
-//ÇØ´ç ³ëµå°¡ ¸·È÷Áö ¾Ê¾Ò´ÂÁö ÆÇ´Ü. 1 = º® / 0 = ±æ
+//ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò´ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½. 1 = ï¿½ï¿½ / 0 = ï¿½ï¿½
 bool isUnblocked(int grid[][COL], int x, int y) 
 {
 	if (grid[x][y] == 0)
@@ -32,11 +33,32 @@ bool isUnblocked(int grid[][COL], int x, int y)
 		return false;
 }
 
-//°ª °è»ê
+//ï¿½ï¿½ ï¿½ï¿½ï¿½?  
 
 double Hscore(int x, int y, Pair dest)
 {
 	double dx = abs(x - dest.first);
 	double dy = abs(y - dest.second);
-	return 1 * (dx + dy) + (2 - 2 * 1) * std::min<dx, dy>; //diagonal distance ¾Ë°í¸®Áò »ç¿ë
+	return 1 * (dx + dy) + (2 - 2 * 1) * std::min<dx, dy>; //diagonal distance ï¿½Ë°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½?
+}
+
+//ï¿½Ø´ï¿½ ï¿½ï¿½å°¡ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+bool isDest(int x, int y, Pair dest)
+{
+	if(x == dest.first && y == dest.second)
+		return (true);
+	else
+		return (false);
+}
+
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+void tracepath(node nodeDetails[][COL], Pair dest)
+{
+	printf("\nï¿½ï¿½Î´ï¿½ : ");
+	int x = dest.first;
+	int y = dest.second;
+
+	std::stack<Pair> Path;
+
+	while
 }
